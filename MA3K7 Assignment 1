@@ -1,0 +1,96 @@
+MA3K7 Assignment 1
+24 January 2024
+
+This assignment aims to tackle the problem of a 'number bracelet' and its patterns and various possibilities.
+The problem is as follows: 
+" Bracelets
+
+  Start with any two numbers less than 10.
+  For example, 1 and 5.
+
+  Make a ‘number bracelet’ like this:
+  1 → 5 → 6 → 1 → 7 → 8 → 5 →
+
+  Continue this chain – what happens?
+
+  How many different bracelets are there?
+"
+
+
+Below is Python code I used to help me solve this problem. Find the rubric of my full solution as a pdf saved as 'U*******_MA3K7_Assignment_1.pdf'.
+
+
+#import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+#randomly generate the first two numbers between 0 and 9
+x_1 = random.randint(0,9)
+x_2 = random.randint(0,9)
+
+print(x_1,x_2)
+
+#begin the chain by adding the randomly generated numbers
+arr = []
+arr.append(x_1)
+arr.append(x_2)
+
+#choose the length of the chain, n
+#create the chain as an array
+
+n = 75
+for i in range(2,n):
+    arr.append((arr[i-1] + arr[i-2])%10)
+
+print(arr)
+
+## Maybe we can plot a graph to visualise the chain
+
+xpoints = list(range(n))
+plt.plot(xpoints,arr)
+plt.title("For x_1="+ str(x_1)+ " and x_2=" + str(x_2))
+plt.show()
+
+#finding the index at which the chain begins to repeat
+for i in range(2,n-1):
+    if arr[i]==x_1 and arr[i+1]==x_2:
+        print("The chain with x_1 = "+str(x_1)+" and x_2 = "+str(x_2)+" repeats at index "+str(i)+" i.e. position "+str(i+1))
+
+
+
+## Now let's start to explore patterns between bracelets
+
+#what happens when you switch the order of the first two random numbers
+arr1 = []
+arr1.append(x_2)
+arr1.append(x_1)
+
+for i in range(2,n):
+    arr1.append((arr1[i-1] + arr1[i-2])%10)
+
+print(arr1)
+
+
+#printing all possible starting combinations (into a single array for neatness though not necessary)
+#to find total number of possible combinations
+all_arrs = []
+for i in range(10):
+    x_1=i
+    
+    for j in range(10):
+        
+        x_2=j
+        
+        arr = []
+        arr.append(x_1)
+        arr.append(x_2)
+
+        l = 2
+        for i in range(2,l):
+            arr.append((arr[i-1] + arr[i-2])%10)
+
+        all_arrs.append(arr)
+        
+print(all_arrs)
+print("The number of possible combinations is: " + str(len(all_arrs)))
