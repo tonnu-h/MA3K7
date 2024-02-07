@@ -1,0 +1,135 @@
+MA3K7 Assignment 2
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.linalg as LA
+from math import factorial
+
+
+# initiating dimensions and random generator
+rng = np.random.default_rng()
+
+dim = 3
+total = dim ** 2
+half_floor = total // 2
+total_poss = factorial(total)/(factorial(half_floor)*factorial((total)-(half_floor)))
+
+samples = 100000
+matrices = []
+Det = []
+
+
+# Player 0 starts
+for i in np.arange(samples):
+    
+    if total % 2 == 0:  # even
+        num_zeros = num_ones = half_floor
+    else:
+        num_zeros = total // 2 + 1
+        num_ones = total - num_zeros
+    
+    matrix_elements = np.array([0] * num_zeros + [1] * num_ones)
+    rng.shuffle(matrix_elements)
+    matrix = matrix_elements.reshape(dim, dim)
+    
+    
+    detA = LA.det(matrix)
+    matrices.append(matrix)
+    Det.append(detA)
+    
+# for i in matrices:
+#     print(i)
+# print(Det)
+# print(total_poss)
+
+
+# Plotting distribution
+Max = max(Det)
+Min = min(Det)
+bins = np.arange(Min,Max+2)-0.5
+
+fig,ax = plt.subplots(1,1)
+
+ax.hist(Det,bins, density=True, rwidth=0.8, color='firebrick')
+ax.set_xlim(Min-1,Max+1)
+ax.set_xticks(np.arange(Min, Max+1))
+ax.set_xlabel("Det values of matrix")
+ax.set_ylabel("Probability mass function")
+plt.grid('on')
+plt.title('Distribution of determinant for '+ str(dim)+'x'+ str(dim)+' matrix, sample size =' + str(samples))
+plt.show()
+
+
+#Player 1 starts
+for i in np.arange(samples):
+    
+    if total % 2 == 0:  # even
+        num_zeros = num_ones = half_floor
+    else:
+        num_ones = total // 2 + 1
+        num_zeros = total - num_ones
+    
+    matrix_elements = np.array([0] * num_zeros + [1] * num_ones)
+    rng.shuffle(matrix_elements)
+    matrix = matrix_elements.reshape(dim, dim)
+    
+    
+    detA = LA.det(matrix)
+    matrices.append(matrix)
+    Det.append(detA)
+
+fig,ax = plt.subplots(1,1)
+
+ax.hist(Det,bins, density=True, rwidth=0.8, color='teal')
+ax.set_xlim(Min-1,Max+1)
+ax.set_xticks(np.arange(Min, Max+1))
+ax.set_xlabel("Det values of matrix")
+ax.set_ylabel("Probability mass function")
+plt.grid('on')
+plt.title('Distribution of determinant for '+ str(dim)+'x'+ str(dim)+' matrix, sample size =' + str(samples))
+plt.show()
+
+
+
+
+
+#Changing matrix values for "Extend" section
+
+rng = np.random.default_rng()
+
+dim = 3
+total = dim ** 2
+half_floor = total // 2
+
+samples = 10000
+matrices = []
+Det = []
+
+for i in np.arange(samples):
+    
+    if total % 2 == 0:  # even
+        num_zeros = num_ones = half_floor
+    else:
+        num_zeros = total // 2 + 1
+        num_ones = total - num_zeros
+    
+    matrix_elements = np.array([1] * num_zeros + [3] * num_ones)
+    rng.shuffle(matrix_elements)
+    matrix = matrix_elements.reshape(dim, dim)
+    
+    
+    detA = LA.det(matrix)
+    matrices.append(matrix)
+    Det.append(detA)
+
+
+#Plots for "Extend" section
+
+ax.hist(Det,bins, density=True, rwidth=0.8, color='mediumslateblue')
+ax.set_xlim(Min-1,Max+1)
+ax.set_xticks(np.arange(Min, Max+1))
+ax.set_xlabel("Det values of matrix")
+ax.set_ylabel("Probability mass function")
+plt.grid('on')
+plt.title('Distribution of determinant for '+ str(dim)+'x'+ str(dim)+' matrix, sample size =' + str(samples)+' (matrix of 1\'s and 3\'s)')
+plt.show()
